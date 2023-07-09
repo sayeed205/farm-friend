@@ -5,8 +5,8 @@ import {
   ApiOkResponse,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
+import { AuthResponseDto, LoginDto, SignupDto } from '../dto';
 import { CustomerService } from './customer.service';
-import { AuthResponseDto, LoginDto, SignupDto } from './dto';
 
 @Controller('customer')
 export class CustomerController {

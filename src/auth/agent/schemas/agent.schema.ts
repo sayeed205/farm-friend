@@ -1,7 +1,6 @@
 import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
 import * as bcrypt from 'bcryptjs';
 import { NextFunction } from 'express';
-
 import { Document } from 'mongoose';
 
 @Schema()
@@ -17,7 +16,7 @@ class oauth {
 }
 
 @Schema({ timestamps: true })
-export class Customer extends Document {
+export class Agent extends Document {
   @Prop()
   name: string;
 
@@ -39,14 +38,17 @@ export class Customer extends Document {
   @Prop()
   oauth: oauth[];
 
-  async comparePassword(customerPassword: string): Promise<boolean> {
-    return bcrypt.compare(customerPassword, this.password);
+  @Prop()
+  location: string;
+
+  async comparePassword(agentPassword: string): Promise<Boolean> {
+    return bcrypt.compare(agentPassword, this.password);
   }
 }
 
-export const CustomerSchema = SchemaFactory.createForClass(Customer);
+export const AgentSchema = SchemaFactory.createForClass(Agent);
 
-CustomerSchema.pre<Customer>('save', async function (next: NextFunction) {
+AgentSchema.pre<Agent>('save', async function (next: NextFunction) {
   if (!this.isModified('password')) return next();
   try {
     const salt = await bcrypt.genSalt(10);
@@ -56,9 +58,3 @@ CustomerSchema.pre<Customer>('save', async function (next: NextFunction) {
     return next(err);
   }
 });
-
-CustomerSchema.methods.comparePassword = async function (
-  customerPassword: string,
-) {
-  return bcrypt.compare(customerPassword, this.password);
-};

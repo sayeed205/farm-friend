@@ -15,7 +15,7 @@ import { Customer } from './schemas';
 export class CustomerJwtStrategy extends PassportStrategy(jwtStrategy) {
   constructor(
     @InjectModel(Customer.name)
-    private readonly userModel: Model<Customer>,
+    private readonly customerModel: Model<Customer>,
   ) {
     super({
       jwtFromRequest: ExtractJwt.fromAuthHeaderAsBearerToken(),
@@ -31,7 +31,7 @@ export class CustomerJwtStrategy extends PassportStrategy(jwtStrategy) {
    */
   async validate(payload: { customer_id: string | Types.ObjectId }) {
     const { customer_id } = payload;
-    const user = await this.userModel.findById(customer_id);
+    const user = await this.customerModel.findById(customer_id);
     if (!user) throw new UnauthorizedException('Login required');
 
     return user;
