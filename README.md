@@ -1,0 +1,1 @@
+[![Run in Postman](https://run.pstmn.io/button.svg)](https://app.getpostman.com/run-collection/22924881-6d64ad48-9ed2-4423-b0b8-ad316d93e6c7?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D22924881-6d64ad48-9ed2-4423-b0b8-ad316d93e6c7%26entityType%3Dcollection%26workspaceId%3D2434a474-dd08-4b5f-a39a-af97aacc76da)
