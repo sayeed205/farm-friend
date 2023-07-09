@@ -19,10 +19,25 @@ export class AgentService {
     if (agent) throw new ConflictException('Email already in use!!');
 
     const newAgent = await this.agentModel.create(signUpInfo);
-    const token = this.jwtService.sign({ agent_id: newAgent._id });
+    const token = this.jwtService.sign({
+      agent_id: newAgent._id,
+      type: 'agent',
+    });
 
     return { token };
   }
 
-  async signIn(signInInfo: LoginDto) {}
+  async signIn(signInInfo: LoginDto) {
+    const agent = await this.agentModel.findOne({
+      email: signInInfo.email,
+    });
+    if (!agent) throw new ConflictException('Email not registered!!');
+
+    const token = this.jwtService.sign({
+      agent_id: agent._id,
+      type: 'agent',
+    });
+
+    return { token };
+  }
 }

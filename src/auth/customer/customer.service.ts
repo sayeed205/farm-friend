@@ -25,7 +25,10 @@ export class CustomerService {
 
     const newCustomer = await this.customerModel.create(signUpInfo);
 
-    const token = this.jwtService.sign({ customer_id: newCustomer._id });
+    const token = this.jwtService.sign({
+      customer_id: newCustomer._id,
+      type: 'customer',
+    });
 
     return { token };
   }
@@ -39,7 +42,10 @@ export class CustomerService {
     const isMatch = await customer.comparePassword(password);
     if (!isMatch) throw new UnauthorizedException('Invalid credentials!!');
 
-    const token = this.jwtService.sign({ customer_id: customer._id });
+    const token = this.jwtService.sign({
+      customer_id: customer._id,
+      type: 'customer',
+    });
 
     return { token };
   }

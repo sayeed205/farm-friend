@@ -3,12 +3,14 @@ import {
   ApiConflictResponse,
   ApiCreatedResponse,
   ApiOkResponse,
+  ApiTags,
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { AuthResponseDto, LoginDto, SignupDto } from '../dto';
 import { CustomerService } from './customer.service';
 
 @Controller('customer')
+@ApiTags('Customer')
 export class CustomerController {
   constructor(private readonly customerService: CustomerService) {}
 

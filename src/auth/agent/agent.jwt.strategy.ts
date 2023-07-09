@@ -17,11 +17,14 @@ export class AgentJwtStrategy extends PassportStrategy(jwtStrategy) {
     });
   }
 
-  async validate(payload: { agent_id: string | Types.ObjectId }) {
-    const { agent_id } = payload;
-    const user = await this.agentModel.findById(agent_id);
-    if (!user) throw new UnauthorizedException('Login required');
+  async validate(payload: {
+    agent_id: string | Types.ObjectId;
+    type: 'agent' | 'customer';
+  }) {
+    const { agent_id, type } = payload;
+    let user = await this.agentModel.findById(agent_id);
+    if (!user) throw new UnauthorizedException();
 
-    return user;
+    return { ...user.toJSON(), type };
   }
 }
