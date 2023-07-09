@@ -5,6 +5,8 @@ import { MongooseModule } from '@nestjs/mongoose';
 
 import { AuthModule } from 'src/auth/auth.module';
 import { FarmerModule } from 'src/farmer/farmer.module';
+import { RationModule } from 'src/ration/ration.module';
+import { SellModule } from 'src/sell/sell.module';
 import { GlobalPipes } from 'src/utils/pipes';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
@@ -15,6 +17,8 @@ import { AppService } from './app.service';
     MongooseModule.forRoot(process.env.DATABASE_URL),
     AuthModule,
     FarmerModule,
+    RationModule,
+    SellModule,
     MongooseModule.forFeature([{ name: 'Customer', schema: 'CustomerSchema' }]),
   ],
   controllers: [AppController],
