@@ -7,7 +7,7 @@ export class Farmer {
   @Prop()
   name: string;
 
-  @Prop()
+  @Prop({ unique: true })
   phone: string;
 
   @Prop()

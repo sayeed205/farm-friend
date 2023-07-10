@@ -20,7 +20,7 @@ export class AgentService {
 
     const newAgent = await this.agentModel.create(signUpInfo);
     const token = this.jwtService.sign({
-      agent_id: newAgent._id,
+      _id: newAgent._id,
       type: 'agent',
     });
 
@@ -34,7 +34,7 @@ export class AgentService {
     if (!agent) throw new ConflictException('Email not registered!!');
 
     const token = this.jwtService.sign({
-      agent_id: agent._id,
+      _id: agent._id,
       type: 'agent',
     });
 

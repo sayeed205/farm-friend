@@ -111,7 +111,7 @@ export class FarmerService {
 
     const updatedFarmer = await this.farmerModel.findByIdAndUpdate(
       id,
-      { ...farmerInfo },
+      farmerInfo,
       { new: true },
     );
     return updatedFarmer;

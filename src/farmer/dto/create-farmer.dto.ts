@@ -7,7 +7,7 @@ export class CreateFarmerDto {
 
   @IsString()
   @IsNotEmpty()
-  @IsPhoneNumber('IN')
+  @IsPhoneNumber()
   phone: string;
 
   @IsString()

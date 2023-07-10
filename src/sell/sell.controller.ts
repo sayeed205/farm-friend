@@ -1,4 +1,5 @@
 import {
+  Body,
   Controller,
   Get,
   Param,
@@ -23,7 +24,14 @@ export class SellController {
   constructor(private readonly sllService: SellService) {}
 
   @Post()
-  async create() {}
+  async create(
+    @GetUser()
+    user: Customer,
+    @Body()
+    sellInfo: SellResDto,
+  ) {
+    return this.sllService.create(sellInfo, user._id);
+  }
 
   @Get('all')
   @ApiPaginatedResponse(SellResDto)

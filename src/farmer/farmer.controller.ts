@@ -77,6 +77,7 @@ export class FarmerController {
     @Body()
     farmerInfo: Partial<CreateFarmerDto>,
   ) {
+    console.log('farmerInfo', farmerInfo);
     return this.farmerService.updateFarmer(id, farmerInfo);
   }
 

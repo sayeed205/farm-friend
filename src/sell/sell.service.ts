@@ -12,8 +12,15 @@ export class SellService {
     @InjectModel(Sell.name) private readonly sellModel: Model<Sell>,
   ) {}
 
-  async create(sellInfo: CreateSellDto): Promise<Sell> {
-    return await this.sellModel.create({ ...sellInfo, bookedAt: new Date() });
+  async create(
+    sellInfo: CreateSellDto,
+    customerId: Types.ObjectId,
+  ): Promise<Sell> {
+    return await this.sellModel.create({
+      ...sellInfo,
+      customer: customerId,
+      bookedAt: new Date(),
+    });
   }
 
   async getSell(id: Types.ObjectId): Promise<Sell> {
