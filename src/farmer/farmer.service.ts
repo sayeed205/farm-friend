@@ -31,7 +31,6 @@ export class FarmerService {
     limit,
     query,
   }: PaginationQueryDto): Promise<Farmer[]> {
-    console.log('query', query);
 
     const farmers = await this.farmerModel.aggregate([
       {

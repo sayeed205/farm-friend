@@ -1,8 +1,15 @@
-import { IsDate, IsNotEmpty, IsNumber, IsString } from 'class-validator';
+import {
+  IsDate,
+  IsEnum,
+  IsNotEmpty,
+  IsNumber,
+  IsString,
+} from 'class-validator';
 import { IsValidMongoId } from 'src/utils/decorators';
 
 enum rationStatus {
-  active = 'active',
+  created = 'created',
+  received = 'received',
 }
 
 export class CreateRationDto {
@@ -31,4 +38,9 @@ export class CreateRationDto {
   @IsDate()
   @IsNotEmpty()
   submittedAt = Date.now();
+
+  @IsString()
+  @IsNotEmpty()
+  @IsEnum(rationStatus)
+  status: string;
 }

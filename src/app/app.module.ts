@@ -3,7 +3,9 @@ import { MiddlewareConsumer, Module, NestModule } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 
-import { AuthModule } from 'src/auth/auth.module';
+import { AgentModule } from 'src/auth/agent/agent.module';
+import { CustomerModule } from 'src/auth/customer/customer.module';
+import { Customer, CustomerSchema } from 'src/auth/customer/schemas';
 import { FarmerModule } from 'src/farmer/farmer.module';
 import { RationModule } from 'src/ration/ration.module';
 import { SellModule } from 'src/sell/sell.module';
@@ -15,11 +17,15 @@ import { AppService } from './app.service';
   imports: [
     ConfigModule.forRoot({ isGlobal: true }),
     MongooseModule.forRoot(process.env.DATABASE_URL),
-    AuthModule,
+    // AuthModule,
+    AgentModule,
+    CustomerModule,
     FarmerModule,
     RationModule,
     SellModule,
-    MongooseModule.forFeature([{ name: 'Customer', schema: 'CustomerSchema' }]),
+    MongooseModule.forFeature([
+      { name: Customer.name, schema: CustomerSchema },
+    ]),
   ],
   controllers: [AppController],
   providers: [AppService, ...GlobalPipes],

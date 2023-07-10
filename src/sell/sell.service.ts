@@ -23,19 +23,28 @@ export class SellService {
     });
   }
 
-  async getSell(id: Types.ObjectId): Promise<Sell> {
-    return await this.sellModel.findById(id); // todo)) get only current user's sells
+  async getSell(
+    id: Types.ObjectId,
+    customer_id: Types.ObjectId,
+  ): Promise<Sell> {
+    return await this.sellModel
+      .findOne({ _id: id, customer: customer_id })
+      .select('-__v')
+      .populate({
+        path: 'customer',
+        select: '-__v -password -oauth -emailVerified -createdAt -updatedAt',
+      });
   }
 
   async getSells(
     customer_id: Types.ObjectId,
     { limit, query, page }: PaginationQueryDto,
   ): Promise<Sell[]> {
-    return await this.sellModel.aggregate([
+    const sells = await this.sellModel.aggregate([
       {
         $match: {
           $and: [
-            { customer_id: customer_id },
+            { customer: customer_id },
             {
               $or: [
                 { name: { $regex: query, $options: 'i' } },
@@ -45,6 +54,12 @@ export class SellService {
               ],
             },
           ],
+        },
+      },
+      {
+        // remove __v from the result
+        $project: {
+          __v: 0,
         },
       },
       {
@@ -74,26 +89,21 @@ export class SellService {
       },
       {
         $project: {
-          count: 1,
-          totalPages: 1,
+          total: '$count',
+          totalPages: {
+            $cond: {
+              if: { $eq: ['$totalPages', null] },
+              then: 1,
+              else: '$totalPages',
+            },
+          },
           results: 1,
-        },
-      },
-      {
-        $unwind: {
-          path: '$results',
-          preserveNullAndEmptyArrays: true,
-        },
-      },
-      {
-        $lookup: {
-          from: 'customers',
-          localField: 'customer_id',
-          foreignField: '_id',
-          as: 'customer',
+          limit: { $literal: limit },
+          page: { $literal: page },
         },
       },
     ]);
+    return sells[0];
   }
 
   //   async updateSell(id: string, sellInfo: CreateSellDto): Promise<Sell> {

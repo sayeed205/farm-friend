@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from 'src/auth/auth.module';
+import { AgentModule } from 'src/auth/agent/agent.module';
 import { FarmerController } from './farmer.controller';
 import { FarmerService } from './farmer.service';
 import { Farmer, FarmerSchema } from './schemas/farmer.schema';
 
 @Module({
   imports: [
-    AuthModule,
+    // AuthModule,
+    AgentModule,
     MongooseModule.forFeature([
       {
         name: Farmer.name,

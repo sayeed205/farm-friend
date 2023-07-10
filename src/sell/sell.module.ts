@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from 'src/auth/auth.module';
+
+import { CustomerModule } from 'src/auth/customer/customer.module';
 import { Sell, SellSchema } from './schemas';
 import { SellController } from './sell.controller';
 import { SellService } from './sell.service';
 
 @Module({
   imports: [
-    AuthModule,
+    // AuthModule,
+    CustomerModule,
     MongooseModule.forFeature([
       {
         name: Sell.name,

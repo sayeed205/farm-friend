@@ -12,7 +12,10 @@ import { Customer } from './schemas';
  * A Passport strategy for authenticating with JSON Web Tokens.
  * @class
  */
-export class CustomerJwtStrategy extends PassportStrategy(jwtStrategy) {
+export class CustomerJwtStrategy extends PassportStrategy(
+  jwtStrategy,
+  'customer-jwt',
+) {
   constructor(
     @InjectModel(Customer.name)
     private readonly customerModel: Model<Customer>,
@@ -29,11 +32,14 @@ export class CustomerJwtStrategy extends PassportStrategy(jwtStrategy) {
    * @returns The user document if found.
    * @throws UnauthorizedException if the user is not found.
    */
-  async validate(payload: { _id: string | Types.ObjectId }) {
-    const { _id } = payload;
+  async validate(payload: {
+    _id: string | Types.ObjectId;
+    type: 'agent' | 'customer';
+  }) {
+    const { _id, type } = payload;
     const user = await this.customerModel.findById(_id);
     if (!user) throw new UnauthorizedException();
 
-    return user;
+    return { ...user.toJSON(), type };
   }
 }

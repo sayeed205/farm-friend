@@ -20,7 +20,7 @@ export function IsValidMongoId(validationOptions?: ValidationOptions) {
          * @returns True if the value is a valid MongoDB ObjectId, false otherwise.
          */
         validate(value: string) {
-          console.log(value);
+          console.log('in decorator', value);
           if (!Types.ObjectId.isValid(value)) {
             console.log(value);
             throw new MongoIdException(value);

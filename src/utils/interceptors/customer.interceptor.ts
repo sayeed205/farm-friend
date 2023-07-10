@@ -17,6 +17,6 @@ export class CustomerInterceptor implements NestInterceptor {
     const user = request.user;
     if (user.type === 'customer') {
       return next.handle();
-    } else throw new UnauthorizedException('You are not an agent');
+    } else throw new UnauthorizedException('You are not a customer!!');
   }
 }

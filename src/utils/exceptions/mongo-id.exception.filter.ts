@@ -21,7 +21,6 @@ export class MongoIdExceptionFilter implements ExceptionFilter {
     const ctx = host.switchToHttp();
     const response = ctx.getResponse<Response>();
     const request = ctx.getRequest<Request>();
-    console.log(exception);
     response.status(400).json({
       statusCode: 400,
       timestamp: new Date().toISOString(),

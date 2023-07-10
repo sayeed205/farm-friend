@@ -11,8 +11,15 @@ export class RationService {
     @InjectModel(Ration.name) private readonly rationModel: Model<Ration>,
   ) {}
 
-  async create(rationInfo: CreateRationDto): Promise<Ration> {
-    const ration = await this.rationModel.create(rationInfo);
+  async create(
+    rationInfo: CreateRationDto,
+    agent_id: Types.ObjectId,
+  ): Promise<Ration> {
+    const ration = await this.rationModel.create({
+      ...rationInfo,
+      agent: agent_id,
+      bookedAt: new Date(),
+    });
     return ration;
   }
 

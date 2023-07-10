@@ -10,7 +10,6 @@ import {
   UseGuards,
   UseInterceptors,
 } from '@nestjs/common';
-import { AuthGuard } from '@nestjs/passport';
 import {
   ApiBadRequestResponse,
   ApiBearerAuth,
@@ -20,7 +19,9 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 
+import { AuthGuard } from '@nestjs/passport';
 import { Types } from 'mongoose';
+
 import { Agent } from 'src/auth/agent/schemas';
 import { PaginationQueryDto } from 'src/common/dto/paginated-query.dto';
 import { ApiPaginatedResponse, GetUser } from 'src/utils/decorators';
@@ -33,7 +34,7 @@ import { FarmerService } from './farmer.service';
 @Controller('farmer')
 @ApiTags('Farmer')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard('agent-jwt'))
 @UseInterceptors(AgentInterceptor)
 @ApiUnauthorizedResponse({ description: 'Unauthorized' })
 export class FarmerController {
@@ -58,7 +59,6 @@ export class FarmerController {
     @Query()
     paginatedQuery: PaginationQueryDto,
   ) {
-    console.log('paginatedQuery', paginatedQuery);
     return this.farmerService.getFarmers(paginatedQuery);
   }
 
@@ -77,7 +77,6 @@ export class FarmerController {
     @Body()
     farmerInfo: Partial<CreateFarmerDto>,
   ) {
-    console.log('farmerInfo', farmerInfo);
     return this.farmerService.updateFarmer(id, farmerInfo);
   }
 

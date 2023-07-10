@@ -1,13 +1,14 @@
 import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
-import { AuthModule } from 'src/auth/auth.module';
+import { AgentModule } from 'src/auth/agent/agent.module';
 import { RationController } from './ration.controller';
 import { RationService } from './ration.service';
 import { Ration, RationSchema } from './schemas';
 
 @Module({
   imports: [
-    AuthModule,
+    // AuthModule,
+    AgentModule,
     MongooseModule.forFeature([
       {
         name: Ration.name,

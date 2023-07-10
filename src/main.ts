@@ -8,6 +8,7 @@ import { AppModule } from './app/app.module';
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
   app.use(helmet());
+  app.enableCors();
 
   const GLOBAL_PREFIX = 'api';
   app.setGlobalPrefix(GLOBAL_PREFIX);

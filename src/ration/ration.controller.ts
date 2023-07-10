@@ -16,7 +16,9 @@ import {
   ApiUnauthorizedResponse,
 } from '@nestjs/swagger';
 import { Types } from 'mongoose';
+import { Agent } from 'src/auth/agent/schemas';
 import { PaginationQueryDto } from 'src/common/dto';
+import { GetUser } from 'src/utils/decorators';
 import { AgentInterceptor } from 'src/utils/interceptors/agent.interceptor';
 import { ValidateMongoId } from 'src/utils/pipes/validate-mongo-id.pipe';
 import { CreateRationDto } from './dto/create-ration.dto';
@@ -25,15 +27,21 @@ import { RationService } from './ration.service';
 @Controller('ration')
 @ApiTags('Ration')
 @ApiBearerAuth()
-@UseGuards(AuthGuard('jwt'))
+@UseGuards(AuthGuard('agent-jwt'))
 @UseInterceptors(AgentInterceptor)
 @ApiUnauthorizedResponse({ description: 'Unauthorized' })
 export class RationController {
   constructor(private readonly rationService: RationService) {}
 
   @Post()
-  async create(rationInfo: CreateRationDto) {
-    return this.rationService.create(rationInfo);
+  async create(
+    @Body()
+    rationInfo: CreateRationDto,
+    @GetUser()
+    user: Agent,
+  ) {
+    console.log('rationInfo', rationInfo);
+    return this.rationService.create(rationInfo, user._id);
   }
 
   @Get('all')
